@@ -37,7 +37,8 @@ class EmployeeController extends Controller
 
     public function datatables(Request $request)
     {
-        $status = $request->query('user_status');
+         $status = $request->query('user_status');
+        $privilege = $request->query('privilege');
 
         $query = DB::table('employee_view');
 
@@ -45,7 +46,11 @@ class EmployeeController extends Controller
             $query->where('user_status', $status);
         }
 
-        return DataTables::of($query)->make(true);
+        if ($privilege !== null) {
+            $query->where('privilege', $privilege);
+        }
+
+        return Datatables::of($query)->make(true);
     }
 
     // Add other methods for CRUD operations (create, store, edit, update, delete) here

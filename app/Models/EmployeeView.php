@@ -19,6 +19,7 @@ class EmployeeView extends Model
         'email',
         'user_cntct',
         'birth_date',
+        'privilege',
         'user_status'
     ];
 

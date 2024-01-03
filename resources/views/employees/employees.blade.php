@@ -26,10 +26,18 @@
             <div class="col-md-12">
                 <div class="mb-3">
                     <form method="GET" action="{{ route('employees.filter') }}">
-                        <label for="filter" class="form-label">Filter by:</label>
+                        <label for="status-filter" class="form-label">Status</label>
                         <select id="status-filter" name="filter" class="form-select">
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
+                        </select>
+
+                        <label for="privilege-filter" class="form-label">Privilege</label>
+                        <select id="privilege-filter">
+                            <option value="">All</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Records Officer">Records Officer</option>
+                            <option value="Employee">Employee</option>
                         </select>
                     </form>
                 </div>
@@ -73,22 +81,30 @@
     <script>
         $(document).ready(function() {
         var userStatus = $('#status-filter').val();
+        var userPrivilege = $('#privilege-filter').val();
 
-        $('#employee-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '/employees/datatables?user_status=' + userStatus,
-            columns: [
-                { data: 'user_id', name: 'user_id' },
-                { data: 'name', name: 'name' },
-                { data: 'email', name: 'email' }
-            ]
-        });
+        function loadTable() {
+            $('#employee-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '/employees/datatables?user_status=' + userStatus + '&privilege=' + userPrivilege,
+                columns: [
+                    { data: 'user_id', name: 'user_id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' }
+                ]
+            });
+        }
 
-        $('#status-filter').change(function() {
-            userStatus = $(this).val();
-            console.log('Status Filter changed to: ' + userStatus);
-            $('#employee-table').DataTable().ajax.url('/employees/datatables?user_status=' + userStatus).load();
+        loadTable();
+
+        // Event listener for filter changes
+        $('#status-filter, #privilege-filter').change(function() {
+            userStatus = $('#status-filter').val();
+            userPrivilege = $('#privilege-filter').val();
+            console.log('Filters changed to: status=' + userStatus + ', privilege=' + userPrivilege);
+            $('#employee-table').DataTable().destroy();
+            loadTable();
         });
     });
     </script>
