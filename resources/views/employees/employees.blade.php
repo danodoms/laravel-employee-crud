@@ -3,6 +3,8 @@
 <head>
     <title>Employee CRUD</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
+    
     <style>
         .border-red {
             /* border: 1px solid red; */
@@ -31,13 +33,21 @@
                         </select>
                     </form>
                 </div>
-                <table id="employee-table" class="table">
+                    <table id="employee-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                    </table>
+                <!-- <table id="employee-table" class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <!-- <th>Status</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -46,26 +56,34 @@
                                 <td>{{ $user->user_id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <!-- <td>{{ $user->status }}</td> -->
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </table> -->
             </div>
         </div>
     </div>
 
-    <!-- <script>
-        document.getElementById('filter').addEventListener('change', function() {
-            var filterValue = this.value;
-            var rows = document.querySelectorAll('#employee-table tbody tr');
 
-            rows.forEach(function(row) {
-                var status = row.dataset.status;
-                var isActive = status === filterValue;
-                row.style.display = isActive ? 'table-row' : 'none';
-            });
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+    
+
+    <script>
+    $(document).ready(function() {
+        $('#employee-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '/employees/datatables',
+            columns: [
+                { data: 'user_id', name: 'user_id' },
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' }
+            ]
         });
-    </script> -->
+    });
+    </script>
+
 </body>
 </html>

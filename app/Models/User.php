@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'employee_view';
+    protected $table = 'user';
 
     protected $fillable = ['user_id','name', 'privilege', 'email', 'user_cntct', 'birth_date','user_status'];
 
