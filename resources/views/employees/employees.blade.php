@@ -27,7 +27,7 @@
                 <div class="mb-3">
                     <form method="GET" action="{{ route('employees.filter') }}">
                         <label for="filter" class="form-label">Filter by:</label>
-                        <select id="filter" name="filter" class="form-select" onchange="this.form.submit()">
+                        <select id="status-filter" name="filter" class="form-select">
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                         </select>
@@ -71,16 +71,24 @@
     
 
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
+        var userStatus = $('#status-filter').val();
+
         $('#employee-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/employees/datatables',
+            ajax: '/employees/datatables?user_status=' + userStatus,
             columns: [
                 { data: 'user_id', name: 'user_id' },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' }
             ]
+        });
+
+        $('#status-filter').change(function() {
+            userStatus = $(this).val();
+            console.log('Status Filter changed to: ' + userStatus);
+            $('#employee-table').DataTable().ajax.url('/employees/datatables?user_status=' + userStatus).load();
         });
     });
     </script>
