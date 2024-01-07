@@ -13,15 +13,12 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        // $users = $this->getActiveUsers();
-        // return view('employees.employees', compact('users'));
+        $users = EmployeeView::all();
+        //log the users
+        Log::info($users);
+        return view('employees.employees', compact('users'));
     }
 
-    public function getActiveUsers()
-    {
-        $userModel = new User();
-        return $userModel->getUsers();
-    }
 
     public function filter(Request $request){
         $filterValue = $request->get('filter', '1');
@@ -55,14 +52,13 @@ class EmployeeController extends Controller
     }
 
 
-
-
-
-    public function edit($id)
+    public function edit($user_id)
     {
-        $employee = User::find($id);
-        // Return the employee data as JSON
-        return response()->json($employee);
+        $user = User::find($user_id);
+        return $user;
+
+        //log the user
+        Log::info($user);
     }
 
     public function deactivate($id)

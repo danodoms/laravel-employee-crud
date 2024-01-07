@@ -23,8 +23,11 @@ Route::get('/', function () {
 //     return view('employees/employees');
 // });
 
+Route::resource('/employees', 'App\Http\Controllers\EmployeeController');
 
-Route::get('/employees', 'App\Http\Controllers\EmployeeController@filter')->name('employees.filter');
+Route::get('/employees', [EmployeeController::class, 'index']);
+
+Route::get('/employees/filter', [EmployeeController::class, 'filter']);
 
 Route::get('/employees/datatables', 'App\Http\Controllers\EmployeeController@datatables');
 
@@ -32,11 +35,13 @@ Route::get('/employees/add', function () {
     return view('employees/addEmployeeModal');
 });
 
-Route::get('/employees/{id}/edit', 'EmployeeController@edit')->name('employees.edit');
+Route::get('/employees/edit/{user_id}', [EmployeeController::class, 'edit']);
 
-Route::post('/employees/{id}/deactivate', 'EmployeeController@deactivate')->name('employees.deactivate');
+Route::post('/employees/deactivate/{user}', 'EmployeeController@deactivate')->name('employees.deactivate');
 
-// Route::post('/employees', 'EmployeeController@addEmployee')->name('addEmployee');
 
-// Route::post('/addEmployee', [EmployeeController::class, 'addEmployee'])->name('addEmployee');
+
 Route::post('/addEmployee', [EmployeeController::class, 'addEmployee']);
+
+// Route::post('/editEmployee', [EmployeeController::class, 'addEmployee']);
+
