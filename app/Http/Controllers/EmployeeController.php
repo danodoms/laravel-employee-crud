@@ -13,8 +13,11 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        $users = EmployeeView::all();
-        //log the users
+        //i want to show only active users
+        $users = EmployeeView::where('user_status', '1')->get();
+
+
+        // $users = EmployeeView::all();
         Log::info($users);
         return view('employees.employees', compact('users'));
     }
@@ -80,10 +83,11 @@ class EmployeeController extends Controller
     public function deactivate($id)
     {
         $employee = User::find($id);
-        $employee->active = false;
+        $employee->user_status = 0;
         $employee->save();
         // Return a success message
-        return response()->json(['success' => 'Employee deactivated successfully']);
+        // return response()->json(['success' => 'Employee deactivated successfully']);
+        return redirect('/employees');
     }
 
     public function addEmployee(Request $request)

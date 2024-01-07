@@ -14,7 +14,7 @@
     </div>
 
     <div class="row border-red">
-        <div class="col">
+        {{-- <div class="col">
             <form method="GET" action="/employees/filter">
                 <label for="status-filter" class="form-label">Status</label>
                 <select id="status-filter" name="filter" class="form-select">
@@ -31,7 +31,7 @@
                     
                 </select>
             </form>
-        </div>
+        </div> --}}
     </div>
     
     <div class="row border-red">
@@ -81,8 +81,6 @@
         $.get('/employees/edit/' + userId, function(user) {
             const form = document.getElementById("editEmployeeForm");
             form.action = "/employees/update/" + userId;
-
-
 
             // Pass user data to modal
             $('#editEmployeeModal').data('user', user);

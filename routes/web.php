@@ -39,7 +39,7 @@ Route::get('/employees/add', function () {
 Route::get('/employees/edit/{user_id}', [EmployeeController::class, 'edit']);
 Route::put('/employees/update/{user_id}', [EmployeeController::class, 'update']);
 
-Route::post('/employees/deactivate/{user}', 'EmployeeController@deactivate')->name('employees.deactivate');
+Route::get('/employees/deactivate/{user_id}', [EmployeeController::class, 'deactivate']);
 
 
 
