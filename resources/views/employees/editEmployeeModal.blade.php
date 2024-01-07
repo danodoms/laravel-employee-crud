@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="PUT" action="/employees/update/{{ $user->user_id }}" id="editEmployeeForm">
+                <form method="POST" id="editEmployeeForm">
                     @csrf
                     {{ method_field('PUT') }}
 

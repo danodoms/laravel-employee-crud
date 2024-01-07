@@ -56,10 +56,26 @@ class EmployeeController extends Controller
     {
         $user = User::find($user_id);
         return $user;
-
+            
         //log the user
         Log::info($user);
     }
+
+    //create update method
+    public function update(Request $request, $user_id)
+    {
+        $employee = User::find($user_id);
+        $employee->user_fname = $request->get('employeeFirstName');
+        $employee->user_mname = $request->get('employeeMiddleName');
+        $employee->user_lname = $request->get('employeeLastName');
+        $employee->email = $request->get('employeeEmail');
+        $employee->privilege = "";
+        $employee->password = "";
+        $employee->save();
+
+        return redirect('/employees');
+    }
+
 
     public function deactivate($id)
     {

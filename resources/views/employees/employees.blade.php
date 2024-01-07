@@ -79,6 +79,11 @@
 
         // Make AJAX request to get user data
         $.get('/employees/edit/' + userId, function(user) {
+            const form = document.getElementById("editEmployeeForm");
+            form.action = "/employees/update/" + userId;
+
+
+
             // Pass user data to modal
             $('#editEmployeeModal').data('user', user);
             $('#editFirstName').val(user.user_fname);

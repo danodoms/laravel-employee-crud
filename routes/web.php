@@ -35,7 +35,9 @@ Route::get('/employees/add', function () {
     return view('employees/addEmployeeModal');
 });
 
+
 Route::get('/employees/edit/{user_id}', [EmployeeController::class, 'edit']);
+Route::put('/employees/update/{user_id}', [EmployeeController::class, 'update']);
 
 Route::post('/employees/deactivate/{user}', 'EmployeeController@deactivate')->name('employees.deactivate');
 
