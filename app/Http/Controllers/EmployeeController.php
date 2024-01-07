@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
@@ -37,7 +38,7 @@ class EmployeeController extends Controller
 
     public function datatables(Request $request)
     {
-         $status = $request->query('user_status');
+        $status = $request->query('user_status');
         $privilege = $request->query('privilege');
 
         $query = DB::table('employee_view');
@@ -53,5 +54,43 @@ class EmployeeController extends Controller
         return Datatables::of($query)->make(true);
     }
 
-    // Add other methods for CRUD operations (create, store, edit, update, delete) here
+
+
+
+
+    public function edit($id)
+    {
+        $employee = User::find($id);
+        // Return the employee data as JSON
+        return response()->json($employee);
+    }
+
+    public function deactivate($id)
+    {
+        $employee = User::find($id);
+        $employee->active = false;
+        $employee->save();
+        // Return a success message
+        return response()->json(['success' => 'Employee deactivated successfully']);
+    }
+
+    public function addEmployee(Request $request)
+    {
+        Log::info(json_encode($request->all()));
+        $employee = new User();
+        $employee->user_fname = $request->get('employeeFirstName');
+        $employee->user_mname = $request->get('employeeMiddleName');
+        $employee->user_lname = $request->get('employeeLastName');
+        $employee->email = $request->get('employeeEmail');
+        $employee->privilege = "";
+        $employee->password = "";
+        $employee->save();
+
+        // Return a success message
+        return redirect('/employees');
+        //return success not in json
+        // return "Employee added successfully";
+
+    }
+    
 }

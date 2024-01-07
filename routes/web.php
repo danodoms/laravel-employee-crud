@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.main');
 });
 
 
@@ -22,8 +23,20 @@ Route::get('/', function () {
 //     return view('employees/employees');
 // });
 
-Route::get('/employees', 'App\Http\Controllers\EmployeeController@index');
 
 Route::get('/employees', 'App\Http\Controllers\EmployeeController@filter')->name('employees.filter');
 
 Route::get('/employees/datatables', 'App\Http\Controllers\EmployeeController@datatables');
+
+Route::get('/employees/add', function () {
+    return view('employees/addEmployeeModal');
+});
+
+Route::get('/employees/{id}/edit', 'EmployeeController@edit')->name('employees.edit');
+
+Route::post('/employees/{id}/deactivate', 'EmployeeController@deactivate')->name('employees.deactivate');
+
+// Route::post('/employees', 'EmployeeController@addEmployee')->name('addEmployee');
+
+// Route::post('/addEmployee', [EmployeeController::class, 'addEmployee'])->name('addEmployee');
+Route::post('/addEmployee', [EmployeeController::class, 'addEmployee']);
